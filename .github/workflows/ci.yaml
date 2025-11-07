@@ -38,6 +38,15 @@ jobs:
             ${{ env.REGISTRY }}/${{ env.IMAGE_NAME }}:latest
             ${{ env.REGISTRY }}/${{ env.IMAGE_NAME }}:${{ env.TAG }}
 
-      - name: Output image tag
-        run: echo "Nueva imagen: ${{ env.REGISTRY }}/${{ env.IMAGE_NAME }}:${{ env.TAG }}"
+     
+  
+    
+      - name: Verify image built and pushed
+
+        run: |
+          echo "Esperando que DockerHub publique la imagen..."
+          sleep 10
+          docker login -u "$REGISTRY" -p "$DOCKERHUB_TOKEN"
+          docker pull $REGISTRY/$IMAGE_NAME:$TAG
+          echo "Imagen verificada correctamente ✅"
 
